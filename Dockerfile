@@ -1,11 +1,11 @@
 FROM java:8-jdk
 MAINTAINER Sergii Marynenko <marynenko@gmail.com>
-LABEL version="1.0"
+LABEL version="1.0.a"
 
 # ENV SLVER=2.52
 ENV SLVER=2.57
 ENV TERM=xterm HOME=/home/jenkins JENREF=/usr/share/jenkins/ref
-    # SLURL=http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/$SLVER/remoting-$SLVER.jar
+    SLURL=http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${SLVER}/remoting-${SLVER}.jar
 
 RUN apt-get update && \
     apt-get -y upgrade && \
@@ -15,8 +15,7 @@ RUN apt-get update && \
 
 RUN useradd -c "Jenkins user" -d $HOME -m jenkins
 
-RUN SLURL=http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/$SLVER/remoting-$SLVER.jar \
-    curl --create-dirs -sSLo /usr/share/jenkins/slave.jar $SLURL \
+RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar ${SLURL} \
     && chmod 755 /usr/share/jenkins \
     && chmod 644 /usr/share/jenkins/slave.jar
 
